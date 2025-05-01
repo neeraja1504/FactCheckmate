@@ -6,7 +6,7 @@
 Language models (LMs) hallucinate. Can we detect and mitigate hallucinations before they occur? We introduce FactCheckmate, a method that preemptively detects hallucinations by classifying hidden states before decoding. If hallucination is predicted, FactCheckmate intervenes by adjusting hidden states to enhance factuality. It provides insights into LMs' internal mechanisms, operates efficiently with minimal overhead, and outperforms post-hoc methods. Evaluations across various LM families (Llama, Mistral, Qwen, Gemma) and QA datasets demonstrate over 70% detection accuracy and a 34.4% improvement in factuality.
 
 ## 📊 Main Results
-Preemptive allucination detection test accuracy. I+O indicates a “reactive” baseline that classifies the LMs’ hidden
+Preemptive hallucination detection test accuracy. I+O indicates a “reactive” baseline that classifies the LMs’ hidden
 states produced over both input questions and output answers, while I preemptively classifies hallucinations based
 on the hidden states over only the inputs. −n indicates that the classifier only sees a prefix of the input excluding
 the last n tokens.
@@ -26,6 +26,24 @@ the last n tokens.
 | Llama3.1-8B-Instruct    | 83.3      | 74.5   | 71.3    | 70.9    | 66.7    | 93.1        | 91.8     | 86.4      | 85.4      | 80.1      | 81.7          | 78.8        | 76.5         | 71.7         | 70.1         | 76.2        | 78.4       | 78.0       | 78.0       | 78.4       |
 | Llama3-70B-Instruct     | 81.0      | 77.1   | 73.3    | 69.6    | 65.9    | 87.6        | 79.6     | 76.5      | 76.4      | 73.4      | 74.7          | 67.6        | 64.5         | 63.6         | 61.0         | 82.7        | 78.8       | 72.5       | 71.3       | 69.4       |
 
+
+## Using the code
+
+### Generating dataset and corresponding hidden states
+```
+python scripts/model_prompting.py
+python scripts/hs_generation.py
+python scripts/aggregate_layers.py
+```
+### Running the classifier
+```
+python scripts/cls.py
+```
+
+### Running the intervention model
+```
+python scripts/nsr_mse.py
+```
 
 ## Citation
 
